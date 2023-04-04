@@ -1,6 +1,6 @@
 {
 	"name": "@mhmdhammoud/lightsaildriver",
-	"version": "1.0.1",
+	"version": "1.0.3",
 	"description": "",
 	"main": "./dist/index.js",
 	"repository": {
@@ -14,8 +14,7 @@
 		"build": "tsc",
 		"types": "tsc --noemit",
 		"prepare": "husky install",
-		"lint": "eslint src --fix",
-		"publish": "yarn build && npm publish"
+		"lint": "eslint src --fix"
 	},
 	"dependencies": {
 		"dotenv": "^10.0.0",

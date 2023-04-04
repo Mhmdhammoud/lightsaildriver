@@ -3,7 +3,6 @@ export declare namespace LightSailDriver {
         accessId: string;
         secretKey: string;
         region: string;
-        instanceName: string;
     }
     interface PortOptions {
         instanceName: string;
