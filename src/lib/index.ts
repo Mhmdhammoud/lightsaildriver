@@ -1,5 +1,5 @@
 import AWS from 'aws-sdk'
-import {IInstance, LightSailDriver} from '../types'
+import {LightSailDriver} from '../types'
 
 class Driver {
 	//AWS access ID
@@ -11,12 +11,10 @@ class Driver {
 	//AWS Lightsail client
 	private client: AWS.Lightsail
 	//AWS Lightsail instance name
-	private instanceName: string
 	constructor(options: LightSailDriver.Instance) {
 		this.accessId = options.accessId
 		this.secretKey = options.secretKey
 		this.region = options.region
-		this.instanceName = options.instanceName
 		this.client = new AWS.Lightsail({
 			accessKeyId: options.accessId,
 			secretAccessKey: options.secretKey,
@@ -26,15 +24,24 @@ class Driver {
 	public getClient(): AWS.Lightsail {
 		return this.client
 	}
-	async getAllInstances(): Promise<any> {
+	async getAllInstances(): Promise<AWS.Lightsail.GetInstancesResult> {
 		return await this.client.getInstances().promise()
+	}
+	async getInstance(
+		instanceName: string
+	): Promise<AWS.Lightsail.GetInstanceResult> {
+		return await this.client
+			.getInstance({
+				instanceName,
+			})
+			.promise()
 	}
 	public async openInstancePorts(
 		args: LightSailDriver.OpenPortsOptions
 	): Promise<AWS.Lightsail.OpenInstancePublicPortsResult> {
 		return this.client
 			.openInstancePublicPorts({
-				instanceName: this.instanceName,
+				instanceName: args.instanceName,
 				portInfo: {
 					fromPort: args.portInfo.fromPort,
 					toPort: args.portInfo.toPort,
@@ -50,7 +57,7 @@ class Driver {
 	): Promise<AWS.Lightsail.CloseInstancePublicPortsResult> {
 		return this.client
 			.closeInstancePublicPorts({
-				instanceName: this.instanceName,
+				instanceName: args.instanceName,
 				portInfo: {
 					fromPort: args.fromPort,
 					toPort: args.toPort,
@@ -64,7 +71,7 @@ class Driver {
 	): Promise<AWS.Lightsail.PutInstancePublicPortsResult> {
 		return await this.client
 			.putInstancePublicPorts({
-				instanceName: this.instanceName,
+				instanceName: args.instanceName,
 				portInfos: args.portInfos,
 			})
 			.promise()

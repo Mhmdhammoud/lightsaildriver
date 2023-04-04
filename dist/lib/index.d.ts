@@ -5,10 +5,10 @@ declare class Driver {
     private secretKey;
     private region;
     private client;
-    private instanceName;
     constructor(options: LightSailDriver.Instance);
     getClient(): AWS.Lightsail;
     getAllInstances(): Promise<AWS.Lightsail.GetInstancesResult>;
+    getInstance(instanceName: string): Promise<AWS.Lightsail.GetInstanceResult>;
     openInstancePorts(args: LightSailDriver.OpenPortsOptions): Promise<AWS.Lightsail.OpenInstancePublicPortsResult>;
     closeInstancePorts(args: LightSailDriver.ClosePortInfo): Promise<AWS.Lightsail.CloseInstancePublicPortsResult>;
     editInstancePorts(args: LightSailDriver.PutPortOptions): Promise<AWS.Lightsail.PutInstancePublicPortsResult>;

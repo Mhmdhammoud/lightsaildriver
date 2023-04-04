@@ -6,9 +6,9 @@ export declare namespace LightSailDriver {
 		instanceName: string
 	}
 	export interface PortOptions {
-		instanceName: String
+		instanceName: string
 	}
-	export interface PortInfo {
+	export interface PortInfo extends PortOptions {
 		fromPort: number
 		toPort: number
 		protocol: 'tcp' | 'udp' | 'all' | 'icmp'

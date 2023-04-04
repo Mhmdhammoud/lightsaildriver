@@ -5,11 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const aws_sdk_1 = __importDefault(require("aws-sdk"));
 class Driver {
+    //AWS Lightsail instance name
     constructor(options) {
         this.accessId = options.accessId;
         this.secretKey = options.secretKey;
         this.region = options.region;
-        this.instanceName = options.instanceName;
         this.client = new aws_sdk_1.default.Lightsail({
             accessKeyId: options.accessId,
             secretAccessKey: options.secretKey,
@@ -22,10 +22,17 @@ class Driver {
     async getAllInstances() {
         return await this.client.getInstances().promise();
     }
+    async getInstance(instanceName) {
+        return await this.client
+            .getInstance({
+            instanceName,
+        })
+            .promise();
+    }
     async openInstancePorts(args) {
         return this.client
             .openInstancePublicPorts({
-            instanceName: this.instanceName,
+            instanceName: args.instanceName,
             portInfo: {
                 fromPort: args.portInfo.fromPort,
                 toPort: args.portInfo.toPort,
@@ -38,7 +45,7 @@ class Driver {
     async closeInstancePorts(args) {
         return this.client
             .closeInstancePublicPorts({
-            instanceName: this.instanceName,
+            instanceName: args.instanceName,
             portInfo: {
                 fromPort: args.fromPort,
                 toPort: args.toPort,
@@ -50,7 +57,7 @@ class Driver {
     async editInstancePorts(args) {
         return await this.client
             .putInstancePublicPorts({
-            instanceName: this.instanceName,
+            instanceName: args.instanceName,
             portInfos: args.portInfos,
         })
             .promise();
