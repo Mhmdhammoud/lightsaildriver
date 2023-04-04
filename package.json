@@ -1,8 +1,12 @@
 {
-	"name": "@meritt/lightsaildriver",
+	"name": "@mhmdhammoud/lightsaildriver",
 	"version": "1.0.0",
 	"description": "",
 	"main": "./dist/index.js",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Mhmdhammoud/lightsaildriver"
+	},
 	"scripts": {
 		"dev-ts": "ts-node-dev --respawn --transpile-only src/index.ts",
 		"dev": "nodemon ./dist/index.js",
