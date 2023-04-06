@@ -62,5 +62,38 @@ class Driver {
         })
             .promise();
     }
+    async shutDownInstance(instance_name) {
+        const response = await this.getInstance(instance_name);
+        if (!(response === null || response === void 0 ? void 0 : response.instance)) {
+            return null;
+        }
+        return await this.client
+            .stopInstance({
+            instanceName: instance_name,
+        })
+            .promise();
+    }
+    async startInstance(instance_name) {
+        const response = await this.getInstance(instance_name);
+        if (!(response === null || response === void 0 ? void 0 : response.instance)) {
+            return null;
+        }
+        return await this.client
+            .startInstance({
+            instanceName: instance_name,
+        })
+            .promise();
+    }
+    async rebootInstance(instance_name) {
+        const response = await this.getInstance(instance_name);
+        if (!(response === null || response === void 0 ? void 0 : response.instance)) {
+            return null;
+        }
+        return await this.client
+            .rebootInstance({
+            instanceName: instance_name,
+        })
+            .promise();
+    }
 }
 exports.default = Driver;
