@@ -12,5 +12,8 @@ declare class Driver {
     openInstancePorts(args: LightSailDriver.OpenPortsOptions): Promise<AWS.Lightsail.OpenInstancePublicPortsResult>;
     closeInstancePorts(args: LightSailDriver.ClosePortInfo): Promise<AWS.Lightsail.CloseInstancePublicPortsResult>;
     editInstancePorts(args: LightSailDriver.PutPortOptions): Promise<AWS.Lightsail.PutInstancePublicPortsResult>;
+    shutDownInstance(instance_name: string): Promise<AWS.Lightsail.StopInstanceResult | null>;
+    startInstance(instance_name: string): Promise<AWS.Lightsail.StartInstanceResult | null>;
+    rebootInstance(instance_name: string): Promise<AWS.Lightsail.RebootInstanceResult | null>;
 }
 export default Driver;

@@ -76,5 +76,44 @@ class Driver {
 			})
 			.promise()
 	}
+	public async shutDownInstance(
+		instance_name: string
+	): Promise<AWS.Lightsail.StopInstanceResult | null> {
+		const response = await this.getInstance(instance_name)
+		if (!response?.instance) {
+			return null
+		}
+		return await this.client
+			.stopInstance({
+				instanceName: instance_name,
+			})
+			.promise()
+	}
+	public async startInstance(
+		instance_name: string
+	): Promise<AWS.Lightsail.StartInstanceResult | null> {
+		const response = await this.getInstance(instance_name)
+		if (!response?.instance) {
+			return null
+		}
+		return await this.client
+			.startInstance({
+				instanceName: instance_name,
+			})
+			.promise()
+	}
+	public async rebootInstance(
+		instance_name: string
+	): Promise<AWS.Lightsail.RebootInstanceResult | null> {
+		const response = await this.getInstance(instance_name)
+		if (!response?.instance) {
+			return null
+		}
+		return await this.client
+			.rebootInstance({
+				instanceName: instance_name,
+			})
+			.promise()
+	}
 }
 export default Driver
