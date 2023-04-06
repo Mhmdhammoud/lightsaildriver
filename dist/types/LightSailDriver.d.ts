@@ -26,4 +26,12 @@ export declare namespace LightSailDriver {
     interface PutPortOptions extends PortOptions {
         portInfos: PutPortInfo;
     }
+    function openInstancePorts(args: LightSailDriver.OpenPortsOptions): Promise<AWS.Lightsail.OpenInstancePublicPortsResult>;
+    function closeInstancePorts(args: LightSailDriver.ClosePortsOptions): Promise<AWS.Lightsail.CloseInstancePublicPortsResult>;
+    function editInstancePorts(args: LightSailDriver.PutPortOptions): Promise<AWS.Lightsail.PutInstancePublicPortsResult>;
+    function getAllInstances(): Promise<AWS.Lightsail.GetInstancesResult>;
+    function getInstance(instanceName: string): Promise<AWS.Lightsail.GetInstanceResult>;
+    function shutDownInstance(instanceName: string): Promise<AWS.Lightsail.StopInstanceResult>;
+    function startInstance(instanceName: string): Promise<AWS.Lightsail.StartInstanceResult>;
+    function rebootInstance(instanceName: string): Promise<AWS.Lightsail.RebootInstanceResult>;
 }
