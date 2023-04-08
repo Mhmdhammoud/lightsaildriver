@@ -15,5 +15,8 @@ declare class Driver {
     shutDownInstance(instance_name: string): Promise<AWS.Lightsail.StopInstanceResult | null>;
     startInstance(instance_name: string): Promise<AWS.Lightsail.StartInstanceResult | null>;
     rebootInstance(instance_name: string): Promise<AWS.Lightsail.RebootInstanceResult | null>;
+    getAllDomains(): Promise<AWS.Lightsail.GetDomainsResult>;
+    getDomain(domain_name: string): Promise<AWS.Lightsail.GetDomainResult>;
+    createDomain(domain_name: string, tags?: Partial<Record<any, any>>[]): Promise<AWS.Lightsail.CreateDomainResult>;
 }
 export default Driver;

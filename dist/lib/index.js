@@ -95,5 +95,23 @@ class Driver {
         })
             .promise();
     }
+    async getAllDomains() {
+        return await this.client.getDomains().promise();
+    }
+    async getDomain(domain_name) {
+        return await this.client
+            .getDomain({
+            domainName: domain_name,
+        })
+            .promise();
+    }
+    async createDomain(domain_name, tags = []) {
+        return await this.client
+            .createDomain({
+            domainName: domain_name,
+            tags,
+        })
+            .promise();
+    }
 }
 exports.default = Driver;

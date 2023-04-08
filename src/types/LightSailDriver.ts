@@ -55,4 +55,15 @@ export declare namespace LightSailDriver {
 	export function rebootInstance(
 		instanceName: string
 	): Promise<AWS.Lightsail.RebootInstanceResult>
+
+	export function getAllDomains(): Promise<AWS.Lightsail.GetDomainsResult>
+
+	export function getDomain(
+		domain_name: string
+	): Promise<AWS.Lightsail.GetDomainResult>
+
+	export function createDomain(
+		domain_name: string,
+		tags: Partial<Record<any, any>>[]
+	): Promise<AWS.Lightsail.CreateDomainResult>
 }
