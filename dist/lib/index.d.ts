@@ -18,5 +18,9 @@ declare class Driver {
     getAllDomains(): Promise<AWS.Lightsail.GetDomainsResult>;
     getDomain(domain_name: string): Promise<AWS.Lightsail.GetDomainResult>;
     createDomain(domain_name: string, tags?: Partial<Record<any, any>>[]): Promise<AWS.Lightsail.CreateDomainResult>;
+    deleteDomain(domain_name: string): Promise<AWS.Lightsail.DeleteDomainResult>;
+    createDomainEntry(args: LightSailDriver.CreateDomainEntry): Promise<AWS.Lightsail.CreateDomainEntryResult>;
+    deleteDomainEntry(args: LightSailDriver.DeleteDomainEntry): Promise<AWS.Lightsail.DeleteDomainEntryResult>;
+    editDomainEntry(): Promise<void>;
 }
 export default Driver;

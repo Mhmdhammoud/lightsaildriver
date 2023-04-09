@@ -139,5 +139,46 @@ class Driver {
 			})
 			.promise()
 	}
+
+	public async deleteDomain(
+		domain_name: string
+	): Promise<AWS.Lightsail.DeleteDomainResult> {
+		return await this.client
+			.deleteDomain({
+				domainName: domain_name,
+			})
+			.promise()
+	}
+
+	public async createDomainEntry(
+		args: LightSailDriver.CreateDomainEntry
+	): Promise<AWS.Lightsail.CreateDomainEntryResult> {
+		return await this.client
+			.createDomainEntry({
+				domainName: args.domainName,
+				domainEntry: {
+					name: args.domainEntry.name,
+					type: args.domainEntry.type,
+				},
+			})
+			.promise()
+	}
+
+	public async deleteDomainEntry(
+		args: LightSailDriver.DeleteDomainEntry
+	): Promise<AWS.Lightsail.DeleteDomainEntryResult> {
+		return await this.client
+			.deleteDomainEntry({
+				domainName: args.domainName,
+				domainEntry: {
+					name: args.domainEntry.name,
+					type: args.domainEntry.type,
+				},
+			})
+			.promise()
+	}
+	public async editDomainEntry(): Promise<void> {
+		throw new Error('Method not implemented.')
+	}
 }
 export default Driver
