@@ -95,5 +95,55 @@ class Driver {
         })
             .promise();
     }
+    async getAllDomains() {
+        return await this.client.getDomains().promise();
+    }
+    async getDomain(domain_name) {
+        return await this.client
+            .getDomain({
+            domainName: domain_name,
+        })
+            .promise();
+    }
+    async createDomain(domain_name, tags = []) {
+        return await this.client
+            .createDomain({
+            domainName: domain_name,
+            tags,
+        })
+            .promise();
+    }
+    async deleteDomain(domain_name) {
+        return await this.client
+            .deleteDomain({
+            domainName: domain_name,
+        })
+            .promise();
+    }
+    async createDomainEntry(args) {
+        return await this.client
+            .createDomainEntry({
+            domainName: args.domainName,
+            domainEntry: {
+                name: args.domainEntry.name,
+                type: args.domainEntry.type,
+            },
+        })
+            .promise();
+    }
+    async deleteDomainEntry(args) {
+        return await this.client
+            .deleteDomainEntry({
+            domainName: args.domainName,
+            domainEntry: {
+                name: args.domainEntry.name,
+                type: args.domainEntry.type,
+            },
+        })
+            .promise();
+    }
+    async editDomainEntry() {
+        throw new Error('Method not implemented.');
+    }
 }
 exports.default = Driver;

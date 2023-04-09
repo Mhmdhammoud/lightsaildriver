@@ -4,6 +4,20 @@ export declare namespace LightSailDriver {
         secretKey: string;
         region: string;
     }
+    type DomainEntryType = 'A' | 'AAAA' | 'CNAME' | 'MX' | 'NS' | 'SOA' | 'TXT' | 'SRV' | 'CAA';
+    interface DomainEntry {
+        id?: string;
+        name?: string;
+        type?: DomainEntryType;
+    }
+    interface CreateDomainEntry {
+        domainName: string;
+        domainEntry: DomainEntry;
+    }
+    interface DeleteDomainEntry {
+        domainName: string;
+        domainEntry: DomainEntry;
+    }
     interface PortOptions {
         instanceName: string;
     }
@@ -12,11 +26,16 @@ export declare namespace LightSailDriver {
         toPort: number;
         protocol: 'tcp' | 'udp' | 'all' | 'icmp';
     }
+    interface EditPortInfo {
+        fromPort: number;
+        toPort: number;
+        protocol: 'tcp' | 'udp' | 'all' | 'icmp';
+    }
     interface OpenPortInfo extends PortInfo {
         cidrs?: string[];
     }
     type ClosePortInfo = PortInfo;
-    type PutPortInfo = PortInfo[];
+    type PutPortInfo = EditPortInfo[];
     interface OpenPortsOptions extends PortOptions {
         portInfo: OpenPortInfo;
     }
@@ -34,4 +53,8 @@ export declare namespace LightSailDriver {
     function shutDownInstance(instanceName: string): Promise<AWS.Lightsail.StopInstanceResult>;
     function startInstance(instanceName: string): Promise<AWS.Lightsail.StartInstanceResult>;
     function rebootInstance(instanceName: string): Promise<AWS.Lightsail.RebootInstanceResult>;
+    function getAllDomains(): Promise<AWS.Lightsail.GetDomainsResult>;
+    function getDomain(domain_name: string): Promise<AWS.Lightsail.GetDomainResult>;
+    function createDomain(domain_name: string, tags: Partial<Record<any, any>>[]): Promise<AWS.Lightsail.CreateDomainResult>;
+    function deleteDomain(domain_name: string): Promise<AWS.Lightsail.DeleteDomainResult>;
 }
