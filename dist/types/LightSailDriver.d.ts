@@ -9,6 +9,7 @@ export declare namespace LightSailDriver {
         id?: string;
         name?: string;
         type?: DomainEntryType;
+        target: string;
     }
     interface CreateDomainEntry {
         domainName: string;
