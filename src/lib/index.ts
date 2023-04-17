@@ -159,6 +159,7 @@ class Driver {
 				domainEntry: {
 					name: args.domainEntry.name,
 					type: args.domainEntry.type,
+					target: args.domainEntry.target,
 				},
 			})
 			.promise()
