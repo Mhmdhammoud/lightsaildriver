@@ -1,3 +1,17 @@
+import {
+	DeleteDomainResult,
+	CreateDomainResult,
+	GetDomainResult,
+	OpenInstancePublicPortsResult,
+	CloseInstancePublicPortsResult,
+	PutInstancePublicPortsResult,
+	GetInstancesResult,
+	GetInstanceResult,
+	StopInstanceResult,
+	StartInstanceResult,
+	RebootInstanceResult,
+	GetDomainsResult,
+} from '@aws-sdk/client-lightsail'
 export declare namespace LightSailDriver {
 	export interface Instance {
 		accessId: string
@@ -60,46 +74,40 @@ export declare namespace LightSailDriver {
 	}
 	export function openInstancePorts(
 		args: LightSailDriver.OpenPortsOptions
-	): Promise<AWS.Lightsail.OpenInstancePublicPortsResult>
+	): Promise<OpenInstancePublicPortsResult>
 
 	export function closeInstancePorts(
 		args: LightSailDriver.ClosePortsOptions
-	): Promise<AWS.Lightsail.CloseInstancePublicPortsResult>
+	): Promise<CloseInstancePublicPortsResult>
 
 	export function editInstancePorts(
 		args: LightSailDriver.PutPortOptions
-	): Promise<AWS.Lightsail.PutInstancePublicPortsResult>
+	): Promise<PutInstancePublicPortsResult>
 
-	export function getAllInstances(): Promise<AWS.Lightsail.GetInstancesResult>
+	export function getAllInstances(): Promise<GetInstancesResult>
 
-	export function getInstance(
-		instanceName: string
-	): Promise<AWS.Lightsail.GetInstanceResult>
+	export function getInstance(instanceName: string): Promise<GetInstanceResult>
 
 	export function shutDownInstance(
 		instanceName: string
-	): Promise<AWS.Lightsail.StopInstanceResult>
+	): Promise<StopInstanceResult>
 
 	export function startInstance(
 		instanceName: string
-	): Promise<AWS.Lightsail.StartInstanceResult>
+	): Promise<StartInstanceResult>
 
 	export function rebootInstance(
 		instanceName: string
-	): Promise<AWS.Lightsail.RebootInstanceResult>
+	): Promise<RebootInstanceResult>
 
-	export function getAllDomains(): Promise<AWS.Lightsail.GetDomainsResult>
+	export function getAllDomains(): Promise<GetDomainsResult>
 
-	export function getDomain(
-		domain_name: string
-	): Promise<AWS.Lightsail.GetDomainResult>
+	export function getDomain(domain_name: string): Promise<GetDomainResult>
 
 	export function createDomain(
 		domain_name: string,
 		tags: Partial<Record<any, any>>[]
-	): Promise<AWS.Lightsail.CreateDomainResult>
+	): Promise<CreateDomainResult>
 
-	export function deleteDomain(
-		domain_name: string
-	): Promise<AWS.Lightsail.DeleteDomainResult>
+	export function deleteDomain(domain_name: string): Promise<DeleteDomainResult>
 }
