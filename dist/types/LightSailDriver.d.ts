@@ -1,3 +1,4 @@
+import { DeleteDomainResult, CreateDomainResult, GetDomainResult, OpenInstancePublicPortsResult, CloseInstancePublicPortsResult, PutInstancePublicPortsResult, GetInstancesResult, GetInstanceResult, StopInstanceResult, StartInstanceResult, RebootInstanceResult, GetDomainsResult } from '@aws-sdk/client-lightsail';
 export declare namespace LightSailDriver {
     interface Instance {
         accessId: string;
@@ -46,16 +47,16 @@ export declare namespace LightSailDriver {
     interface PutPortOptions extends PortOptions {
         portInfos: PutPortInfo;
     }
-    function openInstancePorts(args: LightSailDriver.OpenPortsOptions): Promise<AWS.Lightsail.OpenInstancePublicPortsResult>;
-    function closeInstancePorts(args: LightSailDriver.ClosePortsOptions): Promise<AWS.Lightsail.CloseInstancePublicPortsResult>;
-    function editInstancePorts(args: LightSailDriver.PutPortOptions): Promise<AWS.Lightsail.PutInstancePublicPortsResult>;
-    function getAllInstances(): Promise<AWS.Lightsail.GetInstancesResult>;
-    function getInstance(instanceName: string): Promise<AWS.Lightsail.GetInstanceResult>;
-    function shutDownInstance(instanceName: string): Promise<AWS.Lightsail.StopInstanceResult>;
-    function startInstance(instanceName: string): Promise<AWS.Lightsail.StartInstanceResult>;
-    function rebootInstance(instanceName: string): Promise<AWS.Lightsail.RebootInstanceResult>;
-    function getAllDomains(): Promise<AWS.Lightsail.GetDomainsResult>;
-    function getDomain(domain_name: string): Promise<AWS.Lightsail.GetDomainResult>;
-    function createDomain(domain_name: string, tags: Partial<Record<any, any>>[]): Promise<AWS.Lightsail.CreateDomainResult>;
-    function deleteDomain(domain_name: string): Promise<AWS.Lightsail.DeleteDomainResult>;
+    function openInstancePorts(args: LightSailDriver.OpenPortsOptions): Promise<OpenInstancePublicPortsResult>;
+    function closeInstancePorts(args: LightSailDriver.ClosePortsOptions): Promise<CloseInstancePublicPortsResult>;
+    function editInstancePorts(args: LightSailDriver.PutPortOptions): Promise<PutInstancePublicPortsResult>;
+    function getAllInstances(): Promise<GetInstancesResult>;
+    function getInstance(instanceName: string): Promise<GetInstanceResult>;
+    function shutDownInstance(instanceName: string): Promise<StopInstanceResult>;
+    function startInstance(instanceName: string): Promise<StartInstanceResult>;
+    function rebootInstance(instanceName: string): Promise<RebootInstanceResult>;
+    function getAllDomains(): Promise<GetDomainsResult>;
+    function getDomain(domain_name: string): Promise<GetDomainResult>;
+    function createDomain(domain_name: string, tags: Partial<Record<any, any>>[]): Promise<CreateDomainResult>;
+    function deleteDomain(domain_name: string): Promise<DeleteDomainResult>;
 }

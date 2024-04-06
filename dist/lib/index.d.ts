@@ -1,4 +1,4 @@
-import AWS from 'aws-sdk';
+import { GetInstanceCommandOutput, GetInstancesCommandOutput, Lightsail, OpenInstancePublicPortsCommandOutput, CloseInstancePublicPortsCommandOutput, PutInstancePublicPortsCommandOutput, StopInstanceCommandOutput, StartInstanceCommandOutput, RebootInstanceCommandOutput, GetDomainsCommandOutput, GetDomainCommandOutput, CreateDomainCommandOutput, DeleteDomainCommandOutput, CreateDomainEntryCommandOutput, DeleteDomainEntryCommandOutput } from '@aws-sdk/client-lightsail';
 import { LightSailDriver } from '../types';
 declare class Driver {
     private accessId;
@@ -6,21 +6,21 @@ declare class Driver {
     private region;
     private client;
     constructor(options: LightSailDriver.Instance);
-    getClient(): AWS.Lightsail;
-    getAllInstances(): Promise<AWS.Lightsail.GetInstancesResult>;
-    getInstance(instanceName: string): Promise<AWS.Lightsail.GetInstanceResult>;
-    openInstancePorts(args: LightSailDriver.OpenPortsOptions): Promise<AWS.Lightsail.OpenInstancePublicPortsResult>;
-    closeInstancePorts(args: LightSailDriver.ClosePortInfo): Promise<AWS.Lightsail.CloseInstancePublicPortsResult>;
-    editInstancePorts(args: LightSailDriver.PutPortOptions): Promise<AWS.Lightsail.PutInstancePublicPortsResult>;
-    shutDownInstance(instance_name: string): Promise<AWS.Lightsail.StopInstanceResult | null>;
-    startInstance(instance_name: string): Promise<AWS.Lightsail.StartInstanceResult | null>;
-    rebootInstance(instance_name: string): Promise<AWS.Lightsail.RebootInstanceResult | null>;
-    getAllDomains(): Promise<AWS.Lightsail.GetDomainsResult>;
-    getDomain(domain_name: string): Promise<AWS.Lightsail.GetDomainResult>;
-    createDomain(domain_name: string, tags?: Partial<Record<any, any>>[]): Promise<AWS.Lightsail.CreateDomainResult>;
-    deleteDomain(domain_name: string): Promise<AWS.Lightsail.DeleteDomainResult>;
-    createDomainEntry(args: LightSailDriver.CreateDomainEntry): Promise<AWS.Lightsail.CreateDomainEntryResult>;
-    deleteDomainEntry(args: LightSailDriver.DeleteDomainEntry): Promise<AWS.Lightsail.DeleteDomainEntryResult>;
+    getClient(): Lightsail;
+    getAllInstances(): Promise<GetInstancesCommandOutput>;
+    getInstance(instanceName: string): Promise<GetInstanceCommandOutput>;
+    openInstancePorts(args: LightSailDriver.OpenPortsOptions): Promise<OpenInstancePublicPortsCommandOutput>;
+    closeInstancePorts(args: LightSailDriver.ClosePortInfo): Promise<CloseInstancePublicPortsCommandOutput>;
+    editInstancePorts(args: LightSailDriver.PutPortOptions): Promise<PutInstancePublicPortsCommandOutput>;
+    shutDownInstance(instance_name: string): Promise<StopInstanceCommandOutput | null>;
+    startInstance(instance_name: string): Promise<StartInstanceCommandOutput | null>;
+    rebootInstance(instance_name: string): Promise<RebootInstanceCommandOutput | null>;
+    getAllDomains(): Promise<GetDomainsCommandOutput>;
+    getDomain(domain_name: string): Promise<GetDomainCommandOutput>;
+    createDomain(domain_name: string, tags?: Partial<Record<any, any>>[]): Promise<CreateDomainCommandOutput>;
+    deleteDomain(domain_name: string): Promise<DeleteDomainCommandOutput>;
+    createDomainEntry(args: LightSailDriver.CreateDomainEntry): Promise<CreateDomainEntryCommandOutput>;
+    deleteDomainEntry(args: LightSailDriver.DeleteDomainEntry): Promise<DeleteDomainEntryCommandOutput>;
     editDomainEntry(): Promise<void>;
 }
 export default Driver;
