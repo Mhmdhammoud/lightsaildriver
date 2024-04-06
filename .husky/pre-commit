@@ -45,7 +45,7 @@ echo -ne '\n'
 
 echo -e "${yellow}Running types...${clear}"
 echo -ne '\n'
-yarn types
+yarn test:types
 echo -ne '\n'
 
 echo -e "${green}types passed...${clear} ✅"

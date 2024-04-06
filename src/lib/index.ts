@@ -1,4 +1,34 @@
-import AWS from 'aws-sdk'
+import {
+	GetInstanceCommandOutput,
+	GetInstancesCommandOutput,
+	Lightsail,
+	GetInstanceCommand,
+	GetInstancesCommand,
+	OpenInstancePublicPortsCommand,
+	OpenInstancePublicPortsCommandOutput,
+	CloseInstancePublicPortsCommand,
+	CloseInstancePublicPortsCommandOutput,
+	PutInstancePublicPortsCommandOutput,
+	PutInstancePublicPortsCommand,
+	StopInstanceCommandOutput,
+	StopInstanceCommand,
+	StartInstanceCommandOutput,
+	StartInstanceCommand,
+	RebootInstanceCommandOutput,
+	RebootInstanceCommand,
+	GetDomainsCommand,
+	GetDomainsCommandOutput,
+	GetDomainCommandOutput,
+	GetDomainCommand,
+	CreateDomainCommand,
+	CreateDomainCommandOutput,
+	DeleteDomainCommandOutput,
+	DeleteDomainCommand,
+	CreateDomainEntryCommandOutput,
+	CreateDomainEntryCommand,
+	DeleteDomainEntryCommandOutput,
+	DeleteDomainEntryCommand,
+} from '@aws-sdk/client-lightsail'
 import {LightSailDriver} from '../types'
 
 class Driver {
@@ -9,38 +39,34 @@ class Driver {
 	//AWS region
 	private region: string
 	//AWS Lightsail client
-	private client: AWS.Lightsail
+	private client: Lightsail
 	//AWS Lightsail instance name
 	constructor(options: LightSailDriver.Instance) {
 		this.accessId = options.accessId
 		this.secretKey = options.secretKey
 		this.region = options.region
-		this.client = new AWS.Lightsail({
-			accessKeyId: options.accessId,
-			secretAccessKey: options.secretKey,
+		this.client = new Lightsail({
+			credentials: {
+				accessKeyId: options.accessId,
+				secretAccessKey: options.secretKey,
+			},
 			region: options.region,
 		})
 	}
-	public getClient(): AWS.Lightsail {
+	public getClient(): Lightsail {
 		return this.client
 	}
-	async getAllInstances(): Promise<AWS.Lightsail.GetInstancesResult> {
-		return await this.client.getInstances().promise()
+	async getAllInstances(): Promise<GetInstancesCommandOutput> {
+		return await this.client.send(new GetInstancesCommand({}))
 	}
-	async getInstance(
-		instanceName: string
-	): Promise<AWS.Lightsail.GetInstanceResult> {
-		return await this.client
-			.getInstance({
-				instanceName,
-			})
-			.promise()
+	async getInstance(instanceName: string): Promise<GetInstanceCommandOutput> {
+		return await this.client.send(new GetInstanceCommand({instanceName}))
 	}
 	public async openInstancePorts(
 		args: LightSailDriver.OpenPortsOptions
-	): Promise<AWS.Lightsail.OpenInstancePublicPortsResult> {
-		return this.client
-			.openInstancePublicPorts({
+	): Promise<OpenInstancePublicPortsCommandOutput> {
+		return this.client.send(
+			new OpenInstancePublicPortsCommand({
 				instanceName: args.instanceName,
 				portInfo: {
 					fromPort: args.portInfo.fromPort,
@@ -49,14 +75,14 @@ class Driver {
 					cidrs: args.portInfo.cidrs || [],
 				},
 			})
-			.promise()
+		)
 	}
 
 	public async closeInstancePorts(
 		args: LightSailDriver.ClosePortInfo
-	): Promise<AWS.Lightsail.CloseInstancePublicPortsResult> {
-		return this.client
-			.closeInstancePublicPorts({
+	): Promise<CloseInstancePublicPortsCommandOutput> {
+		return this.client.send(
+			new CloseInstancePublicPortsCommand({
 				instanceName: args.instanceName,
 				portInfo: {
 					fromPort: args.fromPort,
@@ -64,97 +90,95 @@ class Driver {
 					protocol: args.protocol,
 				},
 			})
-			.promise()
+		)
 	}
 	public async editInstancePorts(
 		args: LightSailDriver.PutPortOptions
-	): Promise<AWS.Lightsail.PutInstancePublicPortsResult> {
-		return await this.client
-			.putInstancePublicPorts({
+	): Promise<PutInstancePublicPortsCommandOutput> {
+		return await this.client.send(
+			new PutInstancePublicPortsCommand({
 				instanceName: args.instanceName,
 				portInfos: args.portInfos,
 			})
-			.promise()
+		)
 	}
 	public async shutDownInstance(
 		instance_name: string
-	): Promise<AWS.Lightsail.StopInstanceResult | null> {
+	): Promise<StopInstanceCommandOutput | null> {
 		const response = await this.getInstance(instance_name)
 		if (!response?.instance) {
 			return null
 		}
-		return await this.client
-			.stopInstance({
+		return await this.client.send(
+			new StopInstanceCommand({
 				instanceName: instance_name,
 			})
-			.promise()
+		)
 	}
 	public async startInstance(
 		instance_name: string
-	): Promise<AWS.Lightsail.StartInstanceResult | null> {
+	): Promise<StartInstanceCommandOutput | null> {
 		const response = await this.getInstance(instance_name)
 		if (!response?.instance) {
 			return null
 		}
-		return await this.client
-			.startInstance({
+		return await this.client.send(
+			new StartInstanceCommand({
 				instanceName: instance_name,
 			})
-			.promise()
+		)
 	}
 	public async rebootInstance(
 		instance_name: string
-	): Promise<AWS.Lightsail.RebootInstanceResult | null> {
+	): Promise<RebootInstanceCommandOutput | null> {
 		const response = await this.getInstance(instance_name)
 		if (!response?.instance) {
 			return null
 		}
-		return await this.client
-			.rebootInstance({
+		return await this.client.send(
+			new RebootInstanceCommand({
 				instanceName: instance_name,
 			})
-			.promise()
+		)
 	}
-	public async getAllDomains(): Promise<AWS.Lightsail.GetDomainsResult> {
-		return await this.client.getDomains().promise()
+	public async getAllDomains(): Promise<GetDomainsCommandOutput> {
+		return await this.client.send(new GetDomainsCommand({}))
 	}
 
-	public async getDomain(
-		domain_name: string
-	): Promise<AWS.Lightsail.GetDomainResult> {
-		return await this.client
-			.getDomain({
+	public async getDomain(domain_name: string): Promise<GetDomainCommandOutput> {
+		return await this.client.send(
+			new GetDomainCommand({
 				domainName: domain_name,
 			})
-			.promise()
+		)
 	}
 	public async createDomain(
 		domain_name: string,
 		tags: Partial<Record<any, any>>[] = []
-	): Promise<AWS.Lightsail.CreateDomainResult> {
-		return await this.client
-			.createDomain({
+	): Promise<CreateDomainCommandOutput> {
+		return await this.client.send(
+			new CreateDomainCommand({
 				domainName: domain_name,
 				tags,
 			})
-			.promise()
+		)
 	}
 
 	public async deleteDomain(
 		domain_name: string
-	): Promise<AWS.Lightsail.DeleteDomainResult> {
-		return await this.client
-			.deleteDomain({
+	): Promise<DeleteDomainCommandOutput> {
+		return await this.client.send(
+			new DeleteDomainCommand({
 				domainName: domain_name,
 			})
-			.promise()
+		)
 	}
 
 	public async createDomainEntry(
 		args: LightSailDriver.CreateDomainEntry
-	): Promise<AWS.Lightsail.CreateDomainEntryResult> {
-		return await this.client
-			.createDomainEntry({
+	): Promise<CreateDomainEntryCommandOutput> {
+		return await this.client.send(
+			new CreateDomainEntryCommand({
 				domainName: args.domainName,
 				domainEntry: {
 					name: args.domainEntry.name,
@@ -162,21 +186,21 @@ class Driver {
 					target: args.domainEntry.target,
 				},
 			})
-			.promise()
+		)
 	}
 
 	public async deleteDomainEntry(
 		args: LightSailDriver.DeleteDomainEntry
-	): Promise<AWS.Lightsail.DeleteDomainEntryResult> {
-		return await this.client
-			.deleteDomainEntry({
+	): Promise<DeleteDomainEntryCommandOutput> {
+		return await this.client.send(
+			new DeleteDomainEntryCommand({
 				domainName: args.domainName,
 				domainEntry: {
 					name: args.domainEntry.name,
 					type: args.domainEntry.type,
 				},
 			})
-			.promise()
+		)
 	}
 	public async editDomainEntry(): Promise<void> {
 		throw new Error('Method not implemented.')
