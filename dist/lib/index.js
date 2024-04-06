@@ -1,18 +1,17 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const aws_sdk_1 = __importDefault(require("aws-sdk"));
+const client_lightsail_1 = require("@aws-sdk/client-lightsail");
 class Driver {
     //AWS Lightsail instance name
     constructor(options) {
         this.accessId = options.accessId;
         this.secretKey = options.secretKey;
         this.region = options.region;
-        this.client = new aws_sdk_1.default.Lightsail({
-            accessKeyId: options.accessId,
-            secretAccessKey: options.secretKey,
+        this.client = new client_lightsail_1.Lightsail({
+            credentials: {
+                accessKeyId: options.accessId,
+                secretAccessKey: options.secretKey,
+            },
             region: options.region,
         });
     }
@@ -20,18 +19,13 @@ class Driver {
         return this.client;
     }
     async getAllInstances() {
-        return await this.client.getInstances().promise();
+        return await this.client.send(new client_lightsail_1.GetInstancesCommand({}));
     }
     async getInstance(instanceName) {
-        return await this.client
-            .getInstance({
-            instanceName,
-        })
-            .promise();
+        return await this.client.send(new client_lightsail_1.GetInstanceCommand({ instanceName }));
     }
     async openInstancePorts(args) {
-        return this.client
-            .openInstancePublicPorts({
+        return this.client.send(new client_lightsail_1.OpenInstancePublicPortsCommand({
             instanceName: args.instanceName,
             portInfo: {
                 fromPort: args.portInfo.fromPort,
@@ -39,109 +33,88 @@ class Driver {
                 protocol: args.portInfo.protocol,
                 cidrs: args.portInfo.cidrs || [],
             },
-        })
-            .promise();
+        }));
     }
     async closeInstancePorts(args) {
-        return this.client
-            .closeInstancePublicPorts({
+        return this.client.send(new client_lightsail_1.CloseInstancePublicPortsCommand({
             instanceName: args.instanceName,
             portInfo: {
                 fromPort: args.fromPort,
                 toPort: args.toPort,
                 protocol: args.protocol,
             },
-        })
-            .promise();
+        }));
     }
     async editInstancePorts(args) {
-        return await this.client
-            .putInstancePublicPorts({
+        return await this.client.send(new client_lightsail_1.PutInstancePublicPortsCommand({
             instanceName: args.instanceName,
             portInfos: args.portInfos,
-        })
-            .promise();
+        }));
     }
     async shutDownInstance(instance_name) {
         const response = await this.getInstance(instance_name);
         if (!(response === null || response === void 0 ? void 0 : response.instance)) {
             return null;
         }
-        return await this.client
-            .stopInstance({
+        return await this.client.send(new client_lightsail_1.StopInstanceCommand({
             instanceName: instance_name,
-        })
-            .promise();
+        }));
     }
     async startInstance(instance_name) {
         const response = await this.getInstance(instance_name);
         if (!(response === null || response === void 0 ? void 0 : response.instance)) {
             return null;
         }
-        return await this.client
-            .startInstance({
+        return await this.client.send(new client_lightsail_1.StartInstanceCommand({
             instanceName: instance_name,
-        })
-            .promise();
+        }));
     }
     async rebootInstance(instance_name) {
         const response = await this.getInstance(instance_name);
         if (!(response === null || response === void 0 ? void 0 : response.instance)) {
             return null;
         }
-        return await this.client
-            .rebootInstance({
+        return await this.client.send(new client_lightsail_1.RebootInstanceCommand({
             instanceName: instance_name,
-        })
-            .promise();
+        }));
     }
     async getAllDomains() {
-        return await this.client.getDomains().promise();
+        return await this.client.send(new client_lightsail_1.GetDomainsCommand({}));
     }
     async getDomain(domain_name) {
-        return await this.client
-            .getDomain({
+        return await this.client.send(new client_lightsail_1.GetDomainCommand({
             domainName: domain_name,
-        })
-            .promise();
+        }));
     }
     async createDomain(domain_name, tags = []) {
-        return await this.client
-            .createDomain({
+        return await this.client.send(new client_lightsail_1.CreateDomainCommand({
             domainName: domain_name,
             tags,
-        })
-            .promise();
+        }));
     }
     async deleteDomain(domain_name) {
-        return await this.client
-            .deleteDomain({
+        return await this.client.send(new client_lightsail_1.DeleteDomainCommand({
             domainName: domain_name,
-        })
-            .promise();
+        }));
     }
     async createDomainEntry(args) {
-        return await this.client
-            .createDomainEntry({
+        return await this.client.send(new client_lightsail_1.CreateDomainEntryCommand({
             domainName: args.domainName,
             domainEntry: {
                 name: args.domainEntry.name,
                 type: args.domainEntry.type,
                 target: args.domainEntry.target,
             },
-        })
-            .promise();
+        }));
     }
     async deleteDomainEntry(args) {
-        return await this.client
-            .deleteDomainEntry({
+        return await this.client.send(new client_lightsail_1.DeleteDomainEntryCommand({
             domainName: args.domainName,
             domainEntry: {
                 name: args.domainEntry.name,
                 type: args.domainEntry.type,
             },
-        })
-            .promise();
+        }));
     }
     async editDomainEntry() {
         throw new Error('Method not implemented.');
