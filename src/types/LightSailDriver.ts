@@ -56,9 +56,7 @@ export declare namespace LightSailDriver {
 		protocol: 'tcp' | 'udp' | 'all' | 'icmp'
 		cidrs: string[]
 	}
-	export interface OpenPortInfo extends PortInfo {
-		cidrs?: string[]
-	}
+	export type OpenPortInfo = PortInfo
 	export type ClosePortInfo = PortInfo
 	export type PutPortInfo = EditPortInfo[]
 	export interface OpenPortsOptions {
