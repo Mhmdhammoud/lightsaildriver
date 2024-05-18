@@ -43,33 +43,31 @@ export declare namespace LightSailDriver {
 		domainName: string
 		domainEntry: DomainEntry
 	}
-
-	export interface PortOptions {
-		instanceName: string
-	}
-	export interface PortInfo extends PortOptions {
+	export interface PortInfo {
 		fromPort: number
 		toPort: number
 		protocol: 'tcp' | 'udp' | 'all' | 'icmp'
+		cidrs: string[]
 	}
 
 	export interface EditPortInfo {
 		fromPort: number
 		toPort: number
 		protocol: 'tcp' | 'udp' | 'all' | 'icmp'
+		cidrs: string[]
 	}
 	export interface OpenPortInfo extends PortInfo {
 		cidrs?: string[]
 	}
 	export type ClosePortInfo = PortInfo
 	export type PutPortInfo = EditPortInfo[]
-	export interface OpenPortsOptions extends PortOptions {
+	export interface OpenPortsOptions {
 		portInfo: OpenPortInfo
 	}
-	export interface ClosePortsOptions extends PortOptions {
+	export interface ClosePortsOptions {
 		portInfo: ClosePortInfo
 	}
-	export interface PutPortOptions extends PortOptions {
+	export interface PutPortOptions {
 		portInfos: PutPortInfo
 	}
 	export function openInstancePorts(
