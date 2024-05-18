@@ -63,11 +63,18 @@ class Driver {
 		return await this.client.send(new GetInstanceCommand({instanceName}))
 	}
 	public async openInstancePorts(
+		instanceName: string,
 		args: LightSailDriver.OpenPortsOptions
 	): Promise<OpenInstancePublicPortsCommandOutput> {
+		const cidrs = args.portInfo.cidrs || []
+		if (cidrs.includes('0.0.0.0/0') && cidrs.length > 1) {
+			throw new Error(
+				'InvalidParams: You cannot specify a CIDR or a CIDR list alias together with "0.0.0.0/0". Specifying "0.0.0.0/0" allows all CIDRs and CIDR list aliases.'
+			)
+		}
 		return this.client.send(
 			new OpenInstancePublicPortsCommand({
-				instanceName: args.instanceName,
+				instanceName: instanceName,
 				portInfo: {
 					fromPort: args.portInfo.fromPort,
 					toPort: args.portInfo.toPort,
@@ -79,25 +86,28 @@ class Driver {
 	}
 
 	public async closeInstancePorts(
+		instanceName: string,
 		args: LightSailDriver.ClosePortInfo
 	): Promise<CloseInstancePublicPortsCommandOutput> {
 		return this.client.send(
 			new CloseInstancePublicPortsCommand({
-				instanceName: args.instanceName,
+				instanceName: instanceName,
 				portInfo: {
 					fromPort: args.fromPort,
 					toPort: args.toPort,
 					protocol: args.protocol,
+					cidrs: args.cidrs || [],
 				},
 			})
 		)
 	}
 	public async editInstancePorts(
+		instanceName: string,
 		args: LightSailDriver.PutPortOptions
 	): Promise<PutInstancePublicPortsCommandOutput> {
 		return await this.client.send(
 			new PutInstancePublicPortsCommand({
-				instanceName: args.instanceName,
+				instanceName: instanceName,
 				portInfos: args.portInfos,
 			})
 		)
