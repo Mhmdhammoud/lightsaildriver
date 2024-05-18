@@ -69,14 +69,17 @@ export declare namespace LightSailDriver {
 		portInfos: PutPortInfo
 	}
 	export function openInstancePorts(
+		instanceName: string,
 		args: LightSailDriver.OpenPortsOptions
 	): Promise<OpenInstancePublicPortsResult>
 
 	export function closeInstancePorts(
+		instanceName: string,
 		args: LightSailDriver.ClosePortsOptions
 	): Promise<CloseInstancePublicPortsResult>
 
 	export function editInstancePorts(
+		instanceName: string,
 		args: LightSailDriver.PutPortOptions
 	): Promise<PutInstancePublicPortsResult>
 
